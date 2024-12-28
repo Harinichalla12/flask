@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/static/hi.css">
 </head>
 <body>
-    <h1>view all File</h1>
+    <center><h1 class="hi">view all File</h1>
     <table border="1">
-        <tr>
+     <tr>
             <th>fileid</th>
             <th>filename</th>
             <th>createdtime</th>
@@ -23,6 +24,7 @@
             <td><a href="{{url_for('downloadfile',fid=i[0])}}">download</a></td>
             <td><a href="#">Delete</a></td>
         </tr>
+    </center>
         {% endfor %}
     </table>
 </body>

@@ -27,7 +27,7 @@ def create():
         password=request.form['password']
         cpassword=request.form['cpassword']
         cursor=mydb.cursor(buffered=True)   #to generate cursor like mysql> [to write commands]
-        cursor.execute('select count(*) from users where usermail=%s',[uemail]) #here we wrote command using cursor #we have to tranfer mail in list or tuplwe
+        cursor.execute('select count(*) from users where useremail=%s',[uemail]) #here we wrote command using cursor #we have to tranfer mail in list or tuplwe
         #format. i.e %s=[uemail] like python .format techniques
 
         var1=cursor.fetchone()   #fetchall=>o/p list of tuples[more than one record]. fetchone=>you get single record in tuple format.
@@ -57,7 +57,7 @@ def otp(gotp):
         else:
             if uotp==dotp['otp']:
                 cursor=mydb.cursor(buffered=True)
-                cursor.execute('insert into users(username,usermail,password) values(%s,%s,%s)',
+                cursor.execute('insert into users(username,useremail,password) values(%s,%s,%s)',
                 [dotp['username'],dotp['useremail'],dotp['password']])
                 mydb.commit()
                 cursor.close()
@@ -74,10 +74,10 @@ def login():
             uemail=request.form['email']
             password=request.form['password']
             cursor=mydb.cursor(buffered=True)
-            cursor.execute('select count(usermail) from users where usermail=%s',[uemail])
+            cursor.execute('select count(useremail) from users where useremail=%s',[uemail])
             bdata=cursor.fetchone()
             if bdata[0]==1:
-                cursor.execute('select password from users where usermail=%s',[uemail])
+                cursor.execute('select password from users where useremail=%s',[uemail])
                 bpassword=cursor.fetchone()
                 if password==bpassword[0].decode('utf-8'):
                     print(session)
@@ -106,7 +106,7 @@ def addnotes():
             title=request.form['title']
             Description=request.form['content']
             cursor=mydb.cursor(buffered=True)
-            cursor.execute('select userid from users where usermail=%s',[session.get('user')])
+            cursor.execute('select userid from users where useremail=%s',[session.get('user')])
             uid=cursor.fetchone()
             if uid:
                 try:
@@ -131,7 +131,7 @@ def viewallnotes():
     if session.get('user'):
         try:
             cursor=mydb.cursor(buffered=True)
-            cursor.execute('select userid from users where usermail=%s',[session.get('user')])
+            cursor.execute('select userid from users where useremail=%s',[session.get('user')])
             uid=cursor.fetchone()
             cursor.execute('select nid,title,created_at from notes where userid=%s',[uid[0]])
             notesdata=cursor.fetchall()
@@ -201,7 +201,7 @@ def uploadfile():
                 fdata=filedata.read()
                 filename=filedata.filename
                 cursor=mydb.cursor(buffered=True)
-                cursor.execute('select userid from users where usermail=%s',[session.get('user')])
+                cursor.execute('select userid from users where useremail=%s',[session.get('user')])
                 uid=cursor.fetchone()
                 cursor.execute('insert into file_data(filename,fdata,added_by) values(%s,%s,%s)',[filename,fdata,uid[0]])
                 mydb.commit()
@@ -221,7 +221,7 @@ def allfiles():
     if session.get('user'):
         try:
             cursor=mydb.cursor(buffered=True)
-            cursor.execute('select userid from users where usermail=%s',[session.get('user')])
+            cursor.execute('select userid from users where useremail=%s',[session.get('user')])
             uid=cursor.fetchone()
             cursor.execute('select fid,filename,created_at from file_data where added_by=%s',[uid[0]])
             filesdata=cursor.fetchall()
@@ -275,7 +275,7 @@ def exceldata():
     if session.get('user'):
         try:
             cursor=mydb.cursor(buffered=True)
-            cursor.execute('select userid from users where usermail=%s',[session.get('user')])
+            cursor.execute('select userid from users where useremail=%s',[session.get('user')])
             uid=cursor.fetchone()
             cursor.execute('select nid,title,created_at from notes where userid=%s',[uid[0]])
             notesdata=cursor.fetchall()

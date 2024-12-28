@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/static/hi.css">
 </head>
 <body>
-    <h1>view all notes</h1>
+    <center><h1 class="hi">View All Notes</h1>
     <table border="1">
-        <tr>
+       <tr>
             <th>notes_id</th>
             <th>title</th>
             <th colspan="3"></th>
         </tr>
         {% for i in notesdata %}
-        <tr>
+<tr>
             <td>{{ i[0] }}</td>
             <td>{{ i[1] }}</td>
             <td>{{ i[2] }}</td>
@@ -23,6 +24,7 @@
             <td><a href="{{url_for('delete',nid=i[0])}}">Delete</a></td>
         </tr>
         {% endfor %}
+    </center>
     </table>
 </body>
 </html>
